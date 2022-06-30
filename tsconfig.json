@@ -15,5 +15,5 @@
     "alwaysStrict": true,                             /* Ensure 'use strict' is always emitted. */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
-  "exclude": ["node_modules", "build"]
+  "exclude": ["node_modules", "build", "src/log", "src/ignore"]
 }

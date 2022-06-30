@@ -7,20 +7,28 @@ export const verifyAccessToken = async (req: Request, res: Response, next: NextF
         const accessToken: any = req.headers['x-access-token']
 
         if (!accessToken) {
-            console.log('[server]: jwt-token-not-found')
+            console.log('[server]: access-token-not-provided')
             return res.status(401).send({
                 error: true,
-                message: 'Token not provided.'
+                status: 401,
+                type: 'AccessTokenError',
+                data: {
+                    message: 'Access token not provided by the client.'
+                }
             })
         }
 
         const user = await User.findOne({accessToken})
 
         if(!user){
-            console.error('[server]: jwt-token-not-listed')
+            console.error('[server]: access-token-invalid')
             return res.status(401).send({
                 error: true,
-                message: 'Token not listed in the database.'
+                status: 401,
+                type: 'AccessTokenError',
+                data: {
+                    message: 'Access token porvided was invalid.'
+                }
             })
         }
 
@@ -29,7 +37,11 @@ export const verifyAccessToken = async (req: Request, res: Response, next: NextF
                 console.error('[server]: jwt-verify-error', error)
                 return res.status(401).send({
                     error: true,
-                    message: 'Invalid token provided.'
+                    status: 401,
+                    type: 'AccessTokenError',
+                    data: {
+                        message: 'Access token provided by the client is invalid.'
+                    }
                 })
             }
 
@@ -37,10 +49,14 @@ export const verifyAccessToken = async (req: Request, res: Response, next: NextF
             next()
         })
     } catch (error) {
-        console.error('[server]: jwt-error', error)
-        return res.status(401).send({
+        console.error('[server]: access-token-error', error)
+        return res.status(500).send({
             error: true,
-            message: 'Failed to authorize user, please try again.'
+            status: 500,
+            type: 'AccessTokenError',
+            data: {
+                message: 'Something went wrong while verifying access token, please try again.'
+            }
         })
     }
 }

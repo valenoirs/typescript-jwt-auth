@@ -15,21 +15,30 @@ export const signIn = async (req: Request, res: Response) => {
 
         const user = await User.findOne({email})
 
+        
         if(!user) {
-            console.log('[server]: email-not-registered')
+            console.log('[server]: email-not-registered-in-the-database')
             return res.status(401).send({
                 error: true,
-                message: 'Email not registered.'
+                status: 401,
+                type: 'SignInError',
+                data: {
+                    message: 'User with corresponding email not found.'
+                }
             })
         }
-
+        
         const authenticated = await user.comparePassword(password)
 
         if(!authenticated){
-            console.log('[server]: Invalid user credential provided')
+            console.log('[server]: invalid-user-credential-provided-by-the-client')
             return res.status(401).send({
                 error: true,
-                message: 'Invalid credential, please try again.'
+                status: 401,
+                type: 'SignInError',
+                data: {
+                    message: 'Invalid credential provided.'
+                }
             })
         }
 
@@ -39,18 +48,27 @@ export const signIn = async (req: Request, res: Response) => {
 
         await user.save()
 
-        console.log(`[server]: ${user.email} signed in!`)
+        console.log(`[server]: ${user.email}-signed-in!`)
         return res.status(300).send({
             success:true,
-            error:false,
-            token
+            status: 300,
+            data: {
+                message: 'Successfully signed up',
+                username: user.username,
+                email,
+                token
+            }
         })
     }
     catch(error){
         console.error('sign-in-error', error)
         return res.status(500).send({
-            error:true,
-            message: error
+            error: true,
+            status: 500,
+            type: 'SignInError',
+            data: {
+                message: 'Something went wrong while trying to sign in, please try again.'
+            }
         })
     }
 }
@@ -67,24 +85,34 @@ export const signUp = async (req: Request, res: Response) => {
             console.log('[server]: email-already-registered')
             return res.status(401).send({
                 error: true,
-                message: 'Email already registered.'
+                status: 401,
+                type: 'SignUpError',
+                data: {
+                    message: 'User with corresponding email already registered.'
+                }
             })
         }
 
         await new User(value).save()
 
-        console.log(`[server]: ${value.email} signed up!`)
+        console.log(`[server]: ${value.email}-signed-up!`)
         return res.status(300).send({
             success:true,
-            error:false,
-            message: 'User successfully signed up.'
+            status: 300,
+            data: {
+                message: 'Successfully signed up, please login to continue.',
+            }
         })
     }
     catch(error){
         console.error('sign-up-error', error)
         return res.status(500).send({
-            error:true,
-            message: error
+            error: true,
+            status: 500,
+            type: 'SignUpError',
+            data: {
+                message: 'Something went wrong while trying to sign up, please try again.'
+            }
         })
     }
 }
@@ -99,17 +127,23 @@ export const signOut = async (req: Request, res: Response) => {
             }
         })
 
-        console.log('[server]: User successfully signed out!')
+        console.log(`[server]: ${email}-successfully-signed-out!`)
         return res.status(300).send({
-            success: true,
-            error: false,
-            message: 'User successfully signed out.'
+            success:true,
+            status: 300,
+            data: {
+                message: 'See you later.'
+            }
         })
     } catch (error) {
         console.log('[server]: User sign out error!')
         return res.status(500).send({
             error: true,
-            message: error
+            status: 500,
+            type: 'SignOutError',
+            data: {
+                message: 'Something went wrong while trying to sign out, please try again.'
+            }
         })
     }
 }

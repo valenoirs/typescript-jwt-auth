@@ -22,7 +22,7 @@ connect(process.env.MONGO_URI!)
     console.log('[server]: successfully connected to mongodb')
 })
 .catch(error => {
-    console.error('connect-mongo-error', error)
+    console.error('[server]: failed-connecting-to-mongo-database', error)
 })
 
 // Middleware
@@ -38,9 +38,13 @@ app.use('/api/v1/user/', userRoute)
 
 // Ping
 app.get('/ping', (req: Request, res: Response) => {
+    console.log(`[server]: ${req.headers.host} pinging the server`)
     res.status(200).send({
-        error: false,
-        message: 'Pong!'
+        success:true,
+        status: 200,
+        data: {
+            message: 'valenoirs',
+        }
     })
 })
 
@@ -48,7 +52,11 @@ app.get('/ping', (req: Request, res: Response) => {
 app.use('/', (req: Request, res: Response) => {
     res.status(404).send({
         error: true,
-        message: 'Page Not Found'
+        status: 404,
+        type: 'NotFound',
+        data: {
+            message: 'No API endpoint found.'
+        }
     })
 })
 
