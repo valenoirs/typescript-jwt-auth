@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 
+// Generate token function
 export const generateToken = async (email: string, admin: boolean) => {
     const options = {
         expiresIn: '1d'

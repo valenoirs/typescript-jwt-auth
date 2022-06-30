@@ -8,7 +8,6 @@ import path from 'path'
 
 import { router as userRoute } from './routes/user'
 
-
 const app: Express = express()
 const port = process.env.PORT ?? 5000
 const accessLogStream = createStream(`access.log`, {
