@@ -2,7 +2,13 @@ import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import { User } from '../models/user'
 
-// Verify Access Token middleware
+/**
+ * Verify Access Token middleware return HTTP Response if error, else call express next() function
+ * @param req Express HTTP request
+ * @param res Express HTTP response
+ * @param next Express next()
+ * @returns
+ */
 export const verifyAccessToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // Extracting Access Token from headers

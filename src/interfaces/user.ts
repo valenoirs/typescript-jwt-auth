@@ -1,4 +1,3 @@
-// Create interface module for user model
 import { Model } from "mongoose"
 
 // User Schema interface

@@ -1,6 +1,6 @@
 declare namespace Express {
    interface Request {
-      // Adding decoded to express req
+      // Adding properties to express req
       decoded?: any,
    }
 }

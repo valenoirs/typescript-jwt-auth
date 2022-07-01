@@ -6,8 +6,10 @@ import morgan from 'morgan'
 import { createStream } from 'rotating-file-stream'
 import path from 'path'
 
+// Import Routes
 import { router as userRoute } from './routes/user'
 
+// Init
 const app: Express = express()
 const port = process.env.PORT ?? 5000
 const accessLogStream = createStream(`access.log`, {
@@ -15,7 +17,7 @@ const accessLogStream = createStream(`access.log`, {
     path: path.join(__dirname, 'log')
 })
 
-// Connect to database
+// Connecting to MongoDB
 connect(process.env.MONGO_URI!)
 .then(() => {
     console.log('[server]: successfully connected to mongodb')
@@ -35,7 +37,7 @@ app.use(express.json())
 // Routes
 app.use('/api/v1/user/', userRoute)
 
-// Ping
+// Ping route
 app.get('/ping', (req: Request, res: Response) => {
     console.log(`[server]: ${req.headers.host} pinging the server`)
     res.status(200).send({
@@ -59,7 +61,7 @@ app.use('/', (req: Request, res: Response) => {
     })
 })
 
-// Server
+// Server listener
 app.listen(port, (): void => {
     console.log(`[server]: server running at port ${port}`)
 })

@@ -1,13 +1,16 @@
-// User Controller
 import { Request, Response } from "express";
-
-import { generateToken } from "../helper/generate-access-token";
 
 import { User } from '../models/user'
 import { IUser } from "../interfaces/user";
 import { signInValidation, signUpValidation } from "../helper/user-validation";
+import { generateToken } from "../helper/generate-access-token";
 
-// User Sign in controller
+/**
+ * User Sign in controller
+ * @param req Node HTTP Request
+ * @param res Node HTTP Response
+ * @returns HTTP Response
+ */
 export const signIn = async (req: Request, res: Response) => {
     try{
         // Validate user input
@@ -80,7 +83,12 @@ export const signIn = async (req: Request, res: Response) => {
     }
 }
 
-// User Sign up controller
+/**
+ * User Sign up controller
+ * @param req Node HTTP Request
+ * @param res Node HTTP Response
+ * @returns HTTP Response
+ */
 export const signUp = async (req: Request, res: Response) => {
     try{
         // Validate user input
@@ -130,6 +138,12 @@ export const signUp = async (req: Request, res: Response) => {
     }
 }
 
+/**
+ * User Sign out controller
+ * @param req Node HTTP Request
+ * @param res Node HTTP Response
+ * @returns HTTP Response
+ */
 export const signOut = async (req: Request, res: Response) => {
     try {
         const {email} = req.decoded

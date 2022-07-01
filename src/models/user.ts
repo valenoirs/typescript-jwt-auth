@@ -1,4 +1,3 @@
-// User model
 import { Schema, model } from "mongoose";
 import { IUser, IUserMethod, UserModel } from '../interfaces/user'
 import { hashSync, compareSync } from 'bcrypt'
@@ -16,7 +15,7 @@ const UserSchema: Schema = new Schema<IUser, UserModel, IUserMethod>({
     timestamps:true
 })
 
-// Hash userd password before store to database
+// Hash user password before store to database
 UserSchema.pre('save', function(next: any){
 
     if(this.isModified('password')){
