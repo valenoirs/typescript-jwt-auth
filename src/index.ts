@@ -1,4 +1,4 @@
-import 'dotenv/config.js'
+import config from './config/config'
 import express, {Express, Request, Response} from 'express'
 import { connect } from 'mongoose'
 import helmet from 'helmet'
@@ -11,14 +11,14 @@ import { router as userRoute } from './routes/user'
 
 // Init
 const app: Express = express()
-const port = process.env.PORT ?? 5000
+const port = config.port ?? 5000
 const accessLogStream = createStream(`access.log`, {
     interval: '1d',
     path: path.join(__dirname, 'log')
 })
 
 // Connecting to MongoDB
-connect(process.env.MONGO_URI!)
+connect(config.mongoUri)
 .then(() => {
     console.log('[server]: successfully connected to mongodb')
 })
