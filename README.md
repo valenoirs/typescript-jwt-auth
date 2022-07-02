@@ -1,4 +1,4 @@
-# TypeScript JWT Authhentication
+# TypeScript JWT Authentication
 **JWT-based User Authentication**
 
 #Learning
