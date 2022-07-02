@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import { User } from '../models/user'
+import config from '../config/config'
 
 /**
  * Verify Access Token middleware return HTTP Response if error, else call express next() function
@@ -44,7 +45,7 @@ export const verifyAccessToken = async (req: Request, res: Response, next: NextF
         }
 
         // Verify the token using the secret
-        jwt.verify(accessToken, process.env.JWT_SECRET_KEY!, (error: any, decoded: any) => {
+        jwt.verify(accessToken, config.jwtSecret, (error: any, decoded: any) => {
             // Error handler if validation failed
             if(error) {
                 console.error('[server]: jwt-verify-error', error)

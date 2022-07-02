@@ -15,6 +15,19 @@
 
 ---
 
+## Instalation
+
+```js
+npm i
+npm start
+```
+
+> Rename `local.env` to `.env` and set your dev environment there
+
+##### Default PORT : 5000
+
+---
+
 ## NPM Script
 - npm start
 
